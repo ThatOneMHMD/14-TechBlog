@@ -1,0 +1,144 @@
+{{! internal CSS styling }}
+
+<style>
+  .grid-container { display: grid; justify-content: center; margin: 20px;
+  grid-gap: 10px; grid-template-columns: repeat(auto-fill, minmax(90%, 95%)); }
+  .blog-card { border: 1px solid #ccc; margin: 10px; padding: 10px; display:
+  flex; flex-direction: column; background-color: #1b89bc; box-sizing:
+  border-box; border-radius: 10px; padding: 15px; color: black; } .blog-card-nav
+  { display: flex; justify-content: space-between; align-items: center;
+  background-color: #f5f5f5; padding: 5px; margin-bottom: 10px; } .blog-title {
+  font-weight: bold; } .comments-section { max-height: 400px; overflow-y: auto;
+  background-color: #f5f5f5; border: 1px solid #ccc; padding: 10px; margin-top:
+  10px; } .comment-card { border: 1px solid #ccc; padding: 10px; margin-top:
+  10px; } .marginZero { margin: 0; } button { border-radius: 5%; margin: 10px;
+  background-color: #1b89bc; color: white; } .deleteComment { background-color:
+  #ff0000; } .blog-content { min-height: 50px; } .addBlog { width: fit-content;
+  justify-content: center;} .addBlogSection { display: flex; justify-content:
+  center; margin: 10px; background-color: #1b89bc; border-radius: 10px; padding:
+  15px; color: white;} .addBlogButton { background-color: #1b89bc; color: white;
+  cursor: pointer; padding: 10px 20px; font-size: 16px; border-radius: 5px;
+  margin-right: 10px; width: fit-content; justify-content: center;} .addBlogForm
+  { display: flex; flex-direction: column; width: 100%; } .addBlogForm input,
+  .addBlogForm textarea { border: none; background-color: #f5f5f5; padding:
+  10px; margin-bottom: 10px; border-radius: 5px; font-size: 14px; } .submitBlog
+  { background-color: #ff0000; color: white; border: none; cursor: pointer;
+  padding: 10px 20px; font-size: 16px; border-radius: 5px; } .hidden { display:
+  none; } .deleteBlog{background-color: white; color:black; margin: 10px 0;
+  border: solid black; padding: 5px;} .updateBlog, .editBlog {background-color:
+  black; color: white; margin: 10px 0; border: solid white; padding: 5px;}
+  .blog-content-input {height: 250px;} .smallerFont {font-size: 16px;}
+
+  {{! The hover El will be applied later in a future version. Please disregard for now!}}
+  {{! .hover-element { position: relative;
+  display: inline-block; } .hover-element::after { content: 'hi there !!!!!!!';
+  position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  padding: 5px; background-color: #f1f1f1; border: 1px solid #ccc;
+  border-radius: 3px; font-size: 14px; color: #333; opacity: 0; visibility:
+  hidden; transition: opacity 0.2s ease, visibility 0.2s ease; }
+  .hover-element:hover::after { opacity: 1; visibility: visible; } }}
+
+</style>
+
+<div class='grid-container'>
+
+  {{! extract blogs from model }}
+  {{#each blogs}}
+    <div class='blog-card'>
+      <div class='updateBlogWarning'> </div>
+      <div class='blog-card-nav'>
+        <h4 class='blog-title'>{{title}}</h4>
+        <p class='marginZero smallerFont'>
+          Posted on:
+          <strong>{{date_created}}</strong>
+          <span class='blog-date hover-element'>
+            {{! this feature is not being used currently but is left for future development!  }}
+          </span>
+        </p>
+      </div>
+      <p class='blog-content'>{{content}}</p>
+
+      {{#if comments.length}}
+        <div class='comments-section'>
+          <h5>Comments:</h5>
+
+          {{! extract comments from model }}
+          {{#each comments}}
+            <div class='comment-card'>
+              <p>{{content}}</p>
+              <br />
+              <p><strong>—{{user.name}}</strong> ({{date_created}})</p>
+
+              <button
+                class='deleteComment'
+                data-comment-id='{{id}}'
+                data-comment-user-id='{{user_id}}'
+              >
+                Delete Comment
+              </button>
+
+            </div>
+          {{/each}}
+
+          <div class='addCommentSection'>
+            <button class='addComment' data-blog-id='{{id}}'>
+              Add Comment
+            </button>
+          </div>
+
+        </div>
+      {{else}}
+
+        <div class='comments-section'>
+          <p>No comments yet.</p>
+          <div class='addCommentSection'>
+            <button class='addComment' data-blog-id='{{id}}'>
+              Add Comment
+            </button>
+          </div>
+        </div>
+
+      {{/if}}
+
+      {{!-- edit/update blog section --}}
+
+      <button class='editBlog' data-blog-id='{{id}}'>
+        Edit Blog
+      </button>
+
+      <button class='updateBlog hidden' data-blog-id='{{id}}'>
+        Update Blog
+      </button>
+
+      <button class='deleteBlog' data-blog-id='{{id}}'>
+        Delete Blog
+      </button>
+
+    </div>
+  {{/each}}
+
+  {{!-- add blog section --}}
+  <div class='addBlogSection'>
+    <button class='addBlogButton'>Add Blog</button>
+    <div class='addBlogForm hidden'>
+
+      <div class='newBlogWarning'></div>
+
+      <input
+        type='text'
+        id='blogTitle'
+        placeholder='Enter the title of the blog'
+      />
+
+      <textarea
+        id='blogContent'
+        placeholder='Enter the content of the blog'
+      ></textarea>
+      <button class='submitBlog'>Submit Blog</button>
+    </div>
+  </div>
+
+</div>
+
+{{!-- js script --}}
+<script src='./js/blog.js'></script>

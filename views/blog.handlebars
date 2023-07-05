@@ -1,0 +1,87 @@
+{{!-- internal CSS styling --}}
+<style>
+  .grid-container { display: grid; justify-content: center; margin: 20px;
+  grid-gap: 10px; grid-template-columns: repeat(auto-fill, minmax(90%, 95%)); }
+  .blog-card { border: 1px solid #ccc; margin:10px; padding: 10px; display:
+  flex; flex-direction: column; background-color: #1b89bc; box-sizing:
+  border-box; border-radius: 10px; padding: 15px; color: black; } .blog-card-nav
+  { display: flex; justify-content: space-between; align-items: center;
+  background-color: #f5f5f5; padding: 5px; margin-bottom: 10px; } .blog-title {
+  font-weight: bold; } .comments-section { max-height: 400px; overflow-y: auto;
+  background-color: #f5f5f5; border: 1px solid #ccc; padding: 10px; margin-top:
+  10px; } .comment-card { border: 1px solid #ccc; padding: 10px; margin-top:
+  10px; } .marginZero {margin: 0;} button {border-radius: 5%; margin: 10px;
+  background-color: #1b89bc; color: white;} .deleteComment{
+  background-color:#FF0000;} .blog-content {min-height: 50px;} .smallerFont
+  {font-size: 16px;}
+
+</style>
+
+<div class='grid-container'>
+
+  {{! extract blogs from model }}
+  {{#each blogs}}
+    <div class='blog-card'>
+      <div class='blog-card-nav'>
+        <h4 class='blog-title'>{{title}}</h4>
+        <p class='marginZero smallerFont'>
+          Posted by:
+          <strong>{{user.name}}</strong>
+          on
+          {{date_created}}
+        </p>
+      </div>
+
+      <p class='blog-content'>{{content}}</p>
+
+      {{#if comments.length}}
+        <div class='comments-section'>
+          <h5>Comments:</h5>
+
+          {{! extract comments from model }}
+          {{#each comments}}
+            <div class='comment-card'>
+              <p>{{content}}</p>
+              <br />
+              <p><strong>—{{user.name}}</strong> ({{date_created}})</p>
+
+              <button
+                class='deleteComment'
+                data-comment-id='{{id}}'
+                data-comment-user-id='{{user_id}}'
+              >
+                Delete Comment
+              </button>
+
+              <br />
+              <br />
+              <div class='deleteCommentWarning'> </div>
+
+            </div>
+          {{/each}}
+
+          <div class='addCommentSection'>
+            <button class='addComment' data-blog-id='{{id}}'>
+              Add Comment
+            </button>
+          </div>
+
+        </div>
+      {{else}}
+
+        {{! add comments section }}
+        <div class='comments-section'>
+          <p>No comments yet.</p>
+          <div class='addCommentSection'>
+            <button class='addComment' data-blog-id='{{id}}'>
+              Add Comment
+            </button>
+          </div>
+        </div>
+      {{/if}}
+    </div>
+  {{/each}}
+</div>
+
+{{!-- corresponding js script --}}
+<script src='./js/blog.js'></script>
