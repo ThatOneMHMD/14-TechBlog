@@ -430,6 +430,10 @@ a:hover {
   text-decoration: underline;
 }
 
+a:active {
+  color: purple;
+}
+
 /* HEIGHT / WIDTH UTILS */
 .w-100 {
   width: 100%;

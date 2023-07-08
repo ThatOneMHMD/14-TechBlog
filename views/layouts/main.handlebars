@@ -3,7 +3,7 @@
   <head>
     <meta charset='UTF-8' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-    <title>Fund My Project!</title>
+    <title>Tech Blog!</title>
     <link rel='stylesheet' href='/css/jass.css' />
     <link rel='stylesheet' href='/css/style.css' />
   </head>
@@ -20,8 +20,15 @@
             <a href='/'>Home</a>
             <a href='/dashboard'>Dashboard</a>
             |
+
+            {{!-- in the future, this could be changed to /profile where it leads you to the user's profile instead of the dashboard!
+            <a href='/dashboard'>{{userName}}</a>
+            | --}}
+
             <button class='no-button' id='logout'>Logout</button>
           {{else}}
+            <a href='/'>Home</a>
+            |
             <a href='/login'>Login</a>
           {{/if}}
         </nav>

@@ -1,0 +1,84 @@
+{{! internal CSS styling }}
+<style>
+  .grid-container { display: grid; justify-content: center; margin: 20px;
+  grid-gap: 10px; grid-template-columns: repeat(auto-fill, minmax(90%, 95%)); }
+  .blog-card { border: 1px solid #ccc; margin:10px; padding: 10px; display:
+  flex; flex-direction: column; background-color: #1b89bc; box-sizing:
+  border-box; border-radius: 10px; padding: 15px; color: black; } .blog-card-nav
+  { display: flex; justify-content: space-between; align-items: center;
+  background-color: #f5f5f5; padding: 5px; margin-bottom: 10px; } .blog-title {
+  font-weight: bold; } .comments-section { background-color: #f5f5f5; border:
+  1px solid #ccc; padding: 10px; margin-top: 10px; } .comment-card { border: 1px
+  solid #ccc; padding: 10px; margin-top: 10px; } .marginZero {margin: 0;} button
+  {border-radius: 5%; margin: 10px; background-color: #1b89bc; color: white;}
+  .deleteComment{ background-color:#FF0000;} .blog-content {min-height: 50px;}
+  .smallerFont {font-size: 16px;} .secondary-nav { background-color: #eaeaea;
+  padding: 10px; text-align: center; border-radius: 10px;}
+
+</style>
+
+{{#if logged_in}}
+  <nav class='secondary-nav'>
+    <h5>See what others say about this blog, and make sure to share your thoughts!</h5>
+  </nav>
+{{else}}
+  <nav class='secondary-nav'>
+    <h5> See what others say about this blog!</h5>
+  </nav>
+{{/if}}
+
+<div class='grid-container'>
+  <div class='blog-card'>
+    <div class='blog-card-nav'>
+      <h4 class='blog-title'>{{blog.title}}</h4>
+      <p class='marginZero smallerFont'>
+        Posted by:
+        <strong>{{blog.user.name}}</strong>
+        on
+        {{blog.date_created}}
+      </p>
+    </div>
+
+    <p class='blog-content'>{{blog.content}}</p>
+
+    {{#if blog.comments.length}}
+      <div class='comments-section'>
+        <h5>Comments:</h5>
+        {{#each blog.comments}}
+          <div class='comment-card'>
+            <p>{{content}}</p>
+            <br />
+            <p><strong>—{{user.name}}</strong> ({{date_created}})</p>
+            <button
+              class='deleteComment'
+              data-comment-id='{{id}}'
+              data-comment-user-id='{{user_id}}'
+            >
+              Delete Comment
+            </button>
+            <br />
+            <br />
+            <div class='deleteCommentWarning'></div>
+          </div>
+        {{/each}}
+        <div class='addCommentSection'>
+          <button class='addComment' data-blog-id='{{blog.id}}'>
+            Add Comment
+          </button>
+        </div>
+      </div>
+    {{else}}
+      <div class='comments-section'>
+        <p>No comments yet.</p>
+        <div class='addCommentSection'>
+          <button class='addComment' data-blog-id='{{blog.id}}'>
+            Add Comment
+          </button>
+        </div>
+      </div>
+    {{/if}}
+  </div>
+</div>
+
+{{! corresponding js script }}
+<script src='/js/blog.js'></script>

@@ -28,6 +28,8 @@
   border: solid black; padding: 5px;} .updateBlog, .editBlog {background-color:
   black; color: white; margin: 10px 0; border: solid white; padding: 5px;}
   .blog-content-input {height: 250px;} .smallerFont {font-size: 16px;}
+  .secondary-nav { background-color: #eaeaea; padding: 10px; text-align: center;
+  border-radius: 10px; } #blogContent { height: 250px; }
 
   {{! The hover El will be applied later in a future version. Please disregard for now!}}
   {{! .hover-element { position: relative;
@@ -39,6 +41,14 @@
   .hover-element:hover::after { opacity: 1; visibility: visible; } }}
 
 </style>
+
+<nav class='secondary-nav'>
+  <h5 id='dashboardTitle'></h5>
+  <h6>Anyhow, you are currently logged in as<a
+      href='/dashboard'
+    >{{userName}}</a>
+    and this is your Dashboard!</h6>
+</nav>
 
 <div class='grid-container'>
 
@@ -58,50 +68,53 @@
       </div>
       <p class='blog-content'>{{content}}</p>
 
-      {{#if comments.length}}
-        <div class='comments-section'>
-          <h5>Comments:</h5>
+      <div class='hideComments'>
+        {{#if comments.length}}
 
-          {{! extract comments from model }}
-          {{#each comments}}
-            <div class='comment-card'>
-              <p>{{content}}</p>
-              <br />
-              <p><strong>—{{user.name}}</strong> ({{date_created}})</p>
+          <div class='comments-section'>
+            <h5>Comments:</h5>
 
-              <button
-                class='deleteComment'
-                data-comment-id='{{id}}'
-                data-comment-user-id='{{user_id}}'
-              >
-                Delete Comment
+            {{! extract comments from model }}
+            {{#each comments}}
+              <div class='comment-card'>
+                <p>{{content}}</p>
+                <br />
+                <p><strong>—{{user.name}}</strong> ({{date_created}})</p>
+
+                {{! delete comment section}}
+                <button
+                  class='deleteComment'
+                  data-comment-id='{{id}}'
+                  data-comment-user-id='{{user_id}}'
+                >
+                  Delete Comment
+                </button>
+
+              </div>
+            {{/each}}
+
+            <div class='addCommentSection'>
+              <button class='addComment' data-blog-id='{{id}}'>
+                Add Comment
               </button>
-
             </div>
-          {{/each}}
 
-          <div class='addCommentSection'>
-            <button class='addComment' data-blog-id='{{id}}'>
-              Add Comment
-            </button>
+          </div>
+        {{else}}
+
+          <div class='comments-section'>
+            <p>No comments yet.</p>
+            <div class='addCommentSection'>
+              <button class='addComment' data-blog-id='{{id}}'>
+                Add Comment
+              </button>
+            </div>
           </div>
 
-        </div>
-      {{else}}
+        {{/if}}
+      </div>
 
-        <div class='comments-section'>
-          <p>No comments yet.</p>
-          <div class='addCommentSection'>
-            <button class='addComment' data-blog-id='{{id}}'>
-              Add Comment
-            </button>
-          </div>
-        </div>
-
-      {{/if}}
-
-      {{!-- edit/update blog section --}}
-
+      {{! edit/update blog section }}
       <button class='editBlog' data-blog-id='{{id}}'>
         Edit Blog
       </button>
@@ -117,7 +130,7 @@
     </div>
   {{/each}}
 
-  {{!-- add blog section --}}
+  {{! add blog section }}
   <div class='addBlogSection'>
     <button class='addBlogButton'>Add Blog</button>
     <div class='addBlogForm hidden'>
@@ -140,5 +153,5 @@
 
 </div>
 
-{{!-- js script --}}
+{{! js script }}
 <script src='./js/blog.js'></script>

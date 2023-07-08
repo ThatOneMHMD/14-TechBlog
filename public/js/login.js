@@ -18,9 +18,12 @@ const loginFormHandler = async (event) => {
       // If successful, redirect the browser to the main page/default route
       document.location.replace('/');
     } else {
-      const errorMessage = await response.json();
-      alert(errorMessage.message);
+      // error would be because email/password already in use or are simply invalid, hence the alert
+      alert('Invalid inputs, please try again!');
     }
+  } else {
+    // error would be because no email and/or password were entered
+    alert('Please fill in empty fields!');
   }
 };
 
@@ -42,10 +45,12 @@ const signupFormHandler = async (event) => {
     if (response.ok) {
       document.location.replace('/');
     } else {
+      // error would be because email/password already in use or are simply invalid, hence the alert
       alert('Invalid inputs, please try again!');
     }
   } else {
-    alert('Please fill in all fields!');
+    // error would be because no email and/or password were entered
+    alert('Please fill in empty fields!');
   }
 };
 

@@ -103,32 +103,32 @@ deleteButtons.forEach((button) => {
 
     // Check if the current user ID matches the comment user ID
     if (currentUserId !== commentUserId) {
-      // If the user ID doesn't match, display a warning message
+      // If the user ID doesn't match, display a warning message in the clicked comment
 
-      // Select all elements with the class 'deleteCommentWarning'
-      const deleteCommentWarnings = document.querySelectorAll(
+      // Get the parent comment card element. This is basically sone so that the warning would appear on the clicked comment!
+      const commentCard = button.closest('.comment-card');
+
+      // Select the deleteCommentWarning element within the comment card
+      const deleteCommentWarning = commentCard.querySelector(
         '.deleteCommentWarning'
       );
 
-      // Iterate over each deleteCommentWarning element
-      deleteCommentWarnings.forEach((deleteCommentWarning) => {
-        // Remove any existing warning messages
-        const existingWarnings = deleteCommentWarning.querySelectorAll('h6');
-        existingWarnings.forEach((existingWarning) => {
-          deleteCommentWarning.removeChild(existingWarning);
-        });
-
-        // Create and append the new warning message
-        const warningMessage = document.createElement('h6');
-        warningMessage.textContent =
-          'WARNING: You are not authorized to delete this comment!';
-
-        const anchorTag = document.createElement('a');
-        anchorTag.href = '/login';
-        anchorTag.style.color = 'red';
-        anchorTag.appendChild(warningMessage);
-        deleteCommentWarning.appendChild(anchorTag);
+      // Remove any existing warning messages
+      const existingWarnings = deleteCommentWarning.querySelectorAll('h6');
+      existingWarnings.forEach((existingWarning) => {
+        deleteCommentWarning.removeChild(existingWarning);
       });
+
+      // Create and append the new warning message
+      const warningMessage = document.createElement('h6');
+      warningMessage.textContent =
+        'WARNING: You are not authorized to delete this comment!';
+
+      const anchorTag = document.createElement('a');
+      anchorTag.href = '/login';
+      anchorTag.style.color = 'red';
+      anchorTag.appendChild(warningMessage);
+      deleteCommentWarning.appendChild(anchorTag);
 
       return;
     }
@@ -305,6 +305,12 @@ editBlogButtons.forEach((editBlogButton) => {
     // Hide the edit button and show the update button
     editBlogButton.classList.add('hidden');
     updateBlogButton.classList.remove('hidden');
+
+    // Hide the entire comment section (that is associated with the button) while in update mode!
+    const hideCommentsSection = editBlogButton
+      .closest('.blog-card')
+      .querySelector('.hideComments');
+    hideCommentsSection.classList.add('hidden');
   });
 });
 
@@ -358,6 +364,14 @@ updateBlogButtons.forEach((updateBlogButton) => {
         const editBlogButton = updateBlogButton.previousElementSibling;
         editBlogButton.classList.remove('hidden');
 
+        // Hide the entire comment section (that is associated with the button) while in update mode!
+        const hideCommentsSection = editBlogButton
+          .closest('.blog-card')
+          .querySelector('.hideComment');
+        if (hideCommentsSection) {
+          hideCommentsSection.classList.remove('hidden');
+        }
+
         // // This code should, in theory, add it the date the blog was edited at, but unfortunately this does not work for now and as it is not required, it is left for future improvements!
         // const blogDate = document.querySelector('.blog-date');
         // blogDate.textContent = '';
@@ -404,3 +418,51 @@ updateBlogButtons.forEach((updateBlogButton) => {
     }
   });
 });
+
+// NEW CODE:
+
+// Just adding random quotes to the secondary navbars for the dashboard page to make it a bit more personalized!
+// (if the quote 'author' is not mentioned, then they are unknown)
+const quotes = [
+  'The only way to do great work is to love what you do. - Steve Jobs',
+  "Believe you can and you're halfway there. - Theodore Roosevelt",
+  'The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt',
+  'Success is not the key to happiness. Happiness is the key to success. - Albert Einstein',
+  'In the middle of every difficulty lies opportunity. - Albert Einstein',
+  'I find that the harder I work, the more luck I seem to have. - Thomas Jefferson',
+  'The best way to predict the future is to create it. - Peter Drucker',
+  "I'm not a product of my circumstances. I'm a product of my decisions. - Stephen Covey",
+  'Opportunity does not knock, it presents itself when you beat down the door. - Kyle Chandler',
+  'I love deadlines. I like the whooshing sound they make as they fly by. - Douglas Adams',
+  'The trouble with having an open mind, of course, is that people will insist on coming along and trying to put things in it. - Terry Pratchett',
+  'Do not take life too seriously. You will never get out of it alive. - Elbert Hubbard',
+  'The road to success is dotted with many tempting parking spaces. - Will Rogers',
+  "I am so clever that sometimes I don't understand a single word of what I am saying. - Oscar Wilde",
+  'I intend to live forever. So far, so good. - Steven Wright',
+  "I'm not lazy, I'm just on my energy-saving mode.",
+  "I'm not clumsy, I'm just dancing with the floor.",
+  "I don't need a hairstylist, my pillow gives me a new hairstyle every morning.",
+  "I put the 'pro' in procrastination.",
+  "I'm not arguing, I'm just explaining why I'm right.",
+  'I speak fluent sarcasm.',
+  "I'm not short, I'm concentrated awesome.",
+  "I don't make mistakes, I create unexpected outcomes.",
+  "I'm not weird, I'm a limited edition.",
+  "I'm not lazy, I'm on power-saving mode.",
+  "I'm not bossy, I just know what you should be doing.",
+  "I'm not a complete idiot, some parts are missing.",
+  "I'm not clumsy, the floor just hates me.",
+  "I'm not crazy, my reality is just different from yours.",
+  "I don't need anger management, I need people to stop making me angry.",
+];
+
+// function to replace the dashboard title with random quotes
+function replaceDashboardTitle() {
+  const dashboardTitle = document.getElementById('dashboardTitle');
+  const randomIndex = Math.floor(Math.random() * quotes.length);
+  const randomQuote = quotes[randomIndex];
+  dashboardTitle.textContent = randomQuote;
+}
+
+// Call the function
+replaceDashboardTitle();

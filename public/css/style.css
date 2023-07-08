@@ -40,3 +40,21 @@ button:active {
   padding: 15px;
   color: white;
 }
+
+.betterTextColor {
+  color: #eaeaea;
+}
+
+body {
+  background-image: url('https://wallpapers.com/images/featured/technology-background-w65hwkhmusntb0j9.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+header {
+  background: linear-gradient(to right, #000133, maroon);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
