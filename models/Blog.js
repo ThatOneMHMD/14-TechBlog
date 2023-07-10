@@ -3,7 +3,7 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
 // Define a Blog model that extends the Sequelize Model class
-class Blog extends Model {} 
+class Blog extends Model {}
 Blog.init(
   {
     id: {
@@ -26,14 +26,16 @@ Blog.init(
       defaultValue: DataTypes.NOW,
       get() {
         const rawValue = this.getDataValue('date_created');
-        const formattedDate = rawValue.toLocaleString('en-US', {
+        const utcDate = new Date(rawValue);
+        const options = {
           day: 'numeric',
           month: 'numeric',
           year: 'numeric',
           hour: 'numeric',
           minute: 'numeric',
-        });
-        return formattedDate;
+        };
+        const localDate = utcDate.toLocaleString('en-US', options);
+        return localDate;
       },
     },
     user_id: {
@@ -56,4 +58,4 @@ Blog.init(
 );
 
 // Export the Blog model
-module.exports = Blog; 
+module.exports = Blog;

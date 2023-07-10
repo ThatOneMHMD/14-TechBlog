@@ -22,14 +22,16 @@ Comment.init(
       defaultValue: DataTypes.NOW,
       get() {
         const rawValue = this.getDataValue('date_created');
-        const formattedDate = rawValue.toLocaleString('en-US', {
+        const utcDate = new Date(rawValue);
+        const options = {
           day: 'numeric',
           month: 'numeric',
           year: 'numeric',
           hour: 'numeric',
           minute: 'numeric',
-        });
-        return formattedDate;
+        };
+        const localDate = utcDate.toLocaleString('en-US', options);
+        return localDate;
       },
     },
     user_id: {
