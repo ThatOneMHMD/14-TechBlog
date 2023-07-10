@@ -4,7 +4,7 @@ const express = require('express');
 const session = require('express-session');
 const exphbs = require('express-handlebars');
 const routes = require('./controllers');
-const chalk = require('chalk');
+// const chalk = require('chalk'); //does not work with heroku for some reason...
 const sequelize = require('./config/connection');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
@@ -46,6 +46,6 @@ app.use(routes);
 // prevents useless query text (loggin to false)
 sequelize.sync({ force: false, logging: false }).then(() => {
   app.listen(PORT, () =>
-    console.log(chalk.green(`App listening at http://localhost:${PORT} !!!!!`))
+    console.log(`App listening at http://localhost:${PORT} !!!!!`)
   );
 });
