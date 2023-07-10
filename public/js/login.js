@@ -15,8 +15,9 @@ const loginFormHandler = async (event) => {
     });
 
     if (response.ok) {
-      // If successful, redirect the browser to the main page/default route
+      // If successful, redirect the browser to the main page/default route and reload page
       document.location.replace('/');
+      location.reload();
     } else {
       // error would be because email/password already in use or are simply invalid, hence the alert
       alert('Invalid inputs, please try again!');
@@ -44,6 +45,7 @@ const signupFormHandler = async (event) => {
 
     if (response.ok) {
       document.location.replace('/');
+      location.reload();
     } else {
       // error would be because email/password already in use or are simply invalid, hence the alert
       alert('Invalid inputs, please try again!');
